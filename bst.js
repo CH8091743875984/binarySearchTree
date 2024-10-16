@@ -45,6 +45,87 @@ class Tree {
       this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
     }
   }
+
+  insert(value, root = this.root) {
+    //adds given value
+
+    // initilize the current node (say, currNode or node) with root node
+    // let node = this.root
+
+    // Compare the key with the current node.
+    // Move left if the key is less than or equal to the current node value.
+    // Move right if the key is greater than current node value.
+    // Repeat steps 2 and 3 until you reach a leaf node.
+    // Attach the new key as a left or right child based on the comparison with the leaf node’s value.
+
+    if (root === null) {
+      return new Node(value);
+    }
+    if (root.value === value) {
+      return root;
+    }
+    if (value <= root.value) {
+      root.left = this.insert(value, root.left);
+    } else if (value > root.value) {
+      root.right = this.insert(value, root.right);
+    }
+    return root;
+
+    // while (node.left || node.right) {
+    //   if (value <= node.value) {
+    //     node = node.left
+    //   } else {
+    //     node = node.right
+    //   }
+  }
+
+  getSuccessor(curr) {
+    curr = curr.right;
+    while (curr !== null && curr.left !== null) {
+      curr = curr.left;
+    }
+    return curr;
+  }
+
+  deleteItem(value, root = this.root) {
+    //deletes given value
+    if (root === null) {
+      return root;
+    }
+
+    if (root.value > value) {
+      root.left = this.deleteItem(value, root.left);
+    } else if (root.value < value) {
+      root.right = this.deleteItem(value, root.right);
+    } else {
+      if (root.left === null) {
+        return root.right;
+      }
+      if (root.right === null) {
+        return root.left;
+      }
+
+      let successor = this.getSuccessor(root);
+      root.value = successor.value;
+      root.right = this.deleteItem(successor.value, root.right);
+    }
+    return root;
+  }
+
+  //remove it
+
+  find(value) {
+    //returns node with given value
+  }
+
+  levelOrder(callback) {}
+  inOrder(callback) {}
+  preOrder(callback) {}
+  postOrder(callback) {}
+  height(node) {}
+  depth(node) {}
+  isBalanced() {}
+  rebalance() {}
 }
 
 let testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -53,4 +134,16 @@ let testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let myTree = new Tree(testArray);
 
 console.log(myTree);
+console.log(myTree.prettyPrint());
+
+console.log("Test: insert");
+myTree.insert(6);
+myTree.insert(99);
+myTree.insert(9999);
+myTree.insert(222);
+myTree.insert(8);
+console.log(myTree.prettyPrint());
+
+console.log("Test: delete");
+myTree.deleteItem(8);
 console.log(myTree.prettyPrint());
