@@ -130,17 +130,18 @@ class Tree {
     return root;
   }
 
-  levelOrder(callback, root = this.root) {
+  levelOrder(callback) {
+    //(breadth first)
     if (typeof callback !== "function") {
       throw new Error("Parameter must be a function.");
     }
 
     let queue = [];
 
-    if (root === null) {
+    if (this.root === null) {
       return;
     } else {
-      queue.push(root);
+      queue.push(this.root);
     }
     while (queue.length > 0) {
       let node = queue.shift();
@@ -153,9 +154,45 @@ class Tree {
       }
     }
   }
-  inOrder(callback) {}
-  preOrder(callback) {}
-  postOrder(callback) {}
+
+  preOrder(callback, root = this.root) {
+    if (typeof callback !== "function") {
+      throw new Error("Parameter must be a function.");
+    }
+
+    if (root === null) {
+      return;
+    }
+    callback(root.value);
+    this.preOrder(callback, root.left);
+    this.preOrder(callback, root.right);
+  }
+
+  inOrder(callback, root = this.root) {
+    if (typeof callback !== "function") {
+      throw new Error("Parameter must be a function.");
+    }
+
+    if (root === null) {
+      return;
+    }
+    this.inOrder(callback, root.left);
+    callback(root.value);
+    this.inOrder(callback, root.right);
+  }
+
+  postOrder(callback, root = this.root) {
+    if (typeof callback !== "function") {
+      throw new Error("Parameter must be a function.");
+    }
+
+    if (root === null) {
+      return;
+    }
+    this.postOrder(callback, root.left);
+    this.postOrder(callback, root.right);
+    callback(root.value);
+  }
   height(node) {}
   depth(node) {}
   isBalanced() {}
@@ -194,4 +231,16 @@ function testCallbackConsoleLog(value) {
 
 console.log("Test: levelOrder");
 myTree.levelOrder(testCallbackConsoleLog);
-myTree.levelOrder(3);
+// myTree.levelOrder(3);
+
+console.log("Test: preOrder");
+console.log(myTree.prettyPrint());
+myTree.preOrder(testCallbackConsoleLog);
+
+console.log("Test: inOrder");
+console.log(myTree.prettyPrint());
+myTree.inOrder(testCallbackConsoleLog);
+
+console.log("Test: postOrder");
+console.log(myTree.prettyPrint());
+myTree.postOrder(testCallbackConsoleLog);
