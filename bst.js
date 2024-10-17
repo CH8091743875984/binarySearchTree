@@ -114,8 +114,20 @@ class Tree {
 
   //remove it
 
-  find(value) {
+  find(value, root = this.root) {
     //returns node with given value
+    if (root.value === value) {
+      return root;
+    }
+    if (root.left === null && root.right === null) {
+      return null;
+    }
+    if (root.value > value) {
+      root = this.find(value, root.left);
+    } else if (root.value < value) {
+      root = this.find(value, root.right);
+    }
+    return root;
   }
 
   levelOrder(callback) {}
@@ -147,3 +159,9 @@ console.log(myTree.prettyPrint());
 console.log("Test: delete");
 myTree.deleteItem(8);
 console.log(myTree.prettyPrint());
+
+console.log("Test: find");
+let foundRoot = myTree.find(9);
+console.log(foundRoot);
+let notfoundRoot = myTree.find(66);
+console.log(notfoundRoot);
