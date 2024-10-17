@@ -131,6 +131,10 @@ class Tree {
   }
 
   levelOrder(callback, root = this.root) {
+    if (typeof callback !== "function") {
+      throw new Error("Parameter must be a function.");
+    }
+
     let queue = [];
 
     if (root === null) {
@@ -190,3 +194,4 @@ function testCallbackConsoleLog(value) {
 
 console.log("Test: levelOrder");
 myTree.levelOrder(testCallbackConsoleLog);
+myTree.levelOrder(3);
