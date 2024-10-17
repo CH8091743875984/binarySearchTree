@@ -130,7 +130,25 @@ class Tree {
     return root;
   }
 
-  levelOrder(callback) {}
+  levelOrder(callback, root = this.root) {
+    let queue = [];
+
+    if (root === null) {
+      return;
+    } else {
+      queue.push(root);
+    }
+    while (queue.length > 0) {
+      let node = queue.shift();
+      callback(node.value);
+      if (node.left) {
+        queue.push(node.left);
+      }
+      if (node.right) {
+        queue.push(node.right);
+      }
+    }
+  }
   inOrder(callback) {}
   preOrder(callback) {}
   postOrder(callback) {}
@@ -165,3 +183,10 @@ let foundRoot = myTree.find(9);
 console.log(foundRoot);
 let notfoundRoot = myTree.find(66);
 console.log(notfoundRoot);
+
+function testCallbackConsoleLog(value) {
+  console.log(value);
+}
+
+console.log("Test: levelOrder");
+myTree.levelOrder(testCallbackConsoleLog);
