@@ -193,8 +193,35 @@ class Tree {
     this.postOrder(callback, root.right);
     callback(root.value);
   }
-  height(node) {}
-  depth(node) {}
+  height(node) {
+    //Height is defined as the number of edges in the longest path from a given node to a leaf node.
+    if (node === null) {
+      return -1;
+    }
+
+    let leftHeight = this.height(node.left);
+    let rightHeight = this.height(node.right);
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  depth(node, root = this.root) {
+    if (node === null) {
+      return 0;
+    }
+
+    let depth = 0;
+
+    if (root.value === node.value) {
+      return depth;
+    }
+    if (root.value > node.value) {
+      return this.depth(node, root.left) + 1;
+    }
+    if (root.value < node.value) {
+      return this.depth(node, root.right) + 1;
+    }
+  }
+
   isBalanced() {}
   rebalance() {}
 }
@@ -244,3 +271,13 @@ myTree.inOrder(testCallbackConsoleLog);
 console.log("Test: postOrder");
 console.log(myTree.prettyPrint());
 myTree.postOrder(testCallbackConsoleLog);
+
+console.log("Test: height");
+console.log(myTree.height(myTree.find(9)));
+
+console.log("Test: depth");
+console.log(myTree.depth(myTree.find(9)));
+console.log(myTree.depth(myTree.find(4)));
+console.log(myTree.depth(myTree.find(1)));
+console.log(myTree.depth(myTree.find(3)));
+console.log(myTree.depth(myTree.find(9999)));
