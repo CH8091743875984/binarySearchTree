@@ -231,14 +231,15 @@ class Tree {
     let rightHeight = this.height(root.right);
     let balanced = Math.abs(leftHeight - rightHeight) <= 1;
 
-    console.log(
-      "for ",
-      root.value,
-      "results ",
-      leftHeight,
-      rightHeight,
-      balanced
-    );
+    //helpful visualizer
+    // console.log(
+    //   "for ",
+    //   root.value,
+    //   "results ",
+    //   leftHeight,
+    //   rightHeight,
+    //   balanced
+    // );
 
     if (!balanced) {
       return false;
@@ -337,3 +338,55 @@ console.log("Test: rebalance");
 myTree.rebalance();
 console.log(myTree.prettyPrint());
 console.log(myTree.isBalanced());
+
+function driver() {
+  console.log("Start Driver test function");
+  let array = Array.from({ length: 25 }, () => Math.floor(Math.random() * 100));
+
+  const testTree = new Tree(array);
+
+  console.log("Create tree of values <100");
+  console.log(testTree.prettyPrint());
+  console.log("Is tree balanced?");
+  console.log(testTree.isBalanced());
+
+  console.log("Print level order of original tree");
+  testTree.levelOrder(testCallbackConsoleLog);
+  console.log("Print pre order of original tree");
+  testTree.preOrder(testCallbackConsoleLog);
+  console.log("Print in order of original tree");
+  testTree.inOrder(testCallbackConsoleLog);
+  console.log("Print post order of original tree");
+  testTree.postOrder(testCallbackConsoleLog);
+
+  let testArray = Array.from(
+    { length: 10 },
+    () => Math.floor(Math.random() * (1000 - 100)) + 100
+  );
+
+  testArray.forEach((value) => {
+    testTree.insert(value);
+  });
+
+  console.log("Random values > 100 have been added to tree to unbalance it");
+  console.log(testTree.prettyPrint());
+  console.log("Confirm that tree is unbalanced?");
+  console.log(testTree.isBalanced());
+
+  console.log("Rebalanced tree");
+  testTree.rebalance();
+  console.log(testTree.prettyPrint());
+  console.log("Was tree rebalanced?");
+  console.log(testTree.isBalanced());
+
+  console.log("Print level order of revised tree");
+  testTree.levelOrder(testCallbackConsoleLog);
+  console.log("Print pre order of revised tree");
+  testTree.preOrder(testCallbackConsoleLog);
+  console.log("Print in order of revised tree");
+  testTree.inOrder(testCallbackConsoleLog);
+  console.log("Print post order of revised tree");
+  testTree.postOrder(testCallbackConsoleLog);
+}
+
+driver();
