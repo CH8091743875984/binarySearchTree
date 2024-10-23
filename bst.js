@@ -254,7 +254,16 @@ class Tree {
   //   return false;
   // }
 
-  rebalance() {}
+  rebalance() {
+    let array = [];
+    this.preOrder((x) => {
+      array.push(x);
+    });
+    console.log(array);
+    let arr = [...new Set(array)].sort((a, b) => a - b);
+    this.arr = arr;
+    this.root = this.buildTree(this.arr, 0, this.arr.length - 1);
+  }
 }
 
 let testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -314,11 +323,17 @@ console.log(myTree.depth(myTree.find(3)));
 console.log(myTree.depth(myTree.find(9999)));
 
 console.log("Test: isBalanced");
+console.log(myTree.prettyPrint());
 console.log(myTree.isBalanced());
 
-console.log("Test: isBalanced (second test array)");
-let testArrayTwo = [1, 3, 5, 18, 21];
-let myTreeTwo = new Tree(testArrayTwo);
-console.log(myTreeTwo.prettyPrint());
-console.log(myTreeTwo.isBalanced());
+// console.log("Test: isBalanced (second test array)");
+// let testArrayTwo = [1, 3, 5, 18, 21];
+// let myTreeTwo = new Tree(testArrayTwo);
+// console.log(myTreeTwo.prettyPrint());
+// console.log(myTreeTwo.isBalanced());
 //sorted and deduped this is [1,3,4,5,7,8,9,23,67,324,6345], len 11
+
+console.log("Test: rebalance");
+myTree.rebalance();
+console.log(myTree.prettyPrint());
+console.log(myTree.isBalanced());
