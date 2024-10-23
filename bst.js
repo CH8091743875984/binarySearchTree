@@ -222,7 +222,38 @@ class Tree {
     }
   }
 
-  isBalanced() {}
+  isBalanced(root = this.root) {
+    if (root === null) {
+      return true; // are we looking at this correctly..
+    }
+    // if (root.left !== null || root.right !== null) {
+    let leftHeight = this.height(root.left);
+    let rightHeight = this.height(root.right);
+    let balanced = Math.abs(leftHeight - rightHeight) <= 1;
+
+    console.log(
+      "for ",
+      root.value,
+      "results ",
+      leftHeight,
+      rightHeight,
+      balanced
+    );
+
+    if (!balanced) {
+      return false;
+    }
+
+    return this.isBalanced(root.left) && this.isBalanced(root.right);
+  }
+  // return balanced;
+
+  // if (balanced) {
+  //   return this.isBalanced(root.left) && this.isBalanced(root.right);
+  // } else {
+  //   return false;
+  // }
+
   rebalance() {}
 }
 
@@ -281,3 +312,13 @@ console.log(myTree.depth(myTree.find(4)));
 console.log(myTree.depth(myTree.find(1)));
 console.log(myTree.depth(myTree.find(3)));
 console.log(myTree.depth(myTree.find(9999)));
+
+console.log("Test: isBalanced");
+console.log(myTree.isBalanced());
+
+console.log("Test: isBalanced (second test array)");
+let testArrayTwo = [1, 3, 5, 18, 21];
+let myTreeTwo = new Tree(testArrayTwo);
+console.log(myTreeTwo.prettyPrint());
+console.log(myTreeTwo.isBalanced());
+//sorted and deduped this is [1,3,4,5,7,8,9,23,67,324,6345], len 11
